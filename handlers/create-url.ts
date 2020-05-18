@@ -1,15 +1,15 @@
+import Request from 'https://deno.land/x/pogo/lib/request.ts';
 import { Status } from 'https://deno.land/std/http/http_status.ts';
+import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
-export default (request: any, h: any) => {
+import { basic } from '../utils/responses.ts';
+
+export default (request: Request, tk: Toolkit) => {
   try {
-    console.log('req ---------------', request);
 
-    return h.response({
-      info: 'OK',
-      status: Status.OK,
-    }).code(Status.OK);
+    return basic(tk, Status.OK, 'OK');
   } catch (error) {
-    console.log('error', error);
+    return error(tk, Status.OK, 'OK');
     return {
       error,
       info: 'INTERNAL_SERVER_ERROR',
