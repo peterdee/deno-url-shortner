@@ -1,3 +1,5 @@
+import 'https://deno.land/x/denv/mod.ts';
+
 export const environemt = Deno.env.toObject();
 
 // Database connection

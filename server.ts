@@ -1,5 +1,3 @@
-import 'https://deno.land/x/dotenv/mod.ts';
-
 import pogo from 'https://deno.land/x/pogo/main.ts';
 import Request from 'https://deno.land/x/pogo/lib/request.ts';
 import Server from 'https://deno.land/x/pogo/lib/server.ts';
