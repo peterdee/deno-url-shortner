@@ -1,14 +1,27 @@
+import 'https://deno.land/x/dotenv/mod.ts';
+
 import pogo from 'https://deno.land/x/pogo/main.ts';
+import Request from 'https://deno.land/x/pogo/lib/request.ts';
+import Server from 'https://deno.land/x/pogo/lib/server.ts';
+import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
 import createURL from './handlers/create-url.ts';
-import { port } from './config/index.ts';
+import getURL from './handlers/get-url.ts';
+import { PORT } from './config/index.ts';
 
-const server = pogo.server({ port });
+const server: Server = pogo.server({ port: PORT });
 
 server.route({
-  handler: (request: any, response: any) => createURL(request, response),
-  method: 'GET',
-  path: '/',
+  handler: (request: Request, tk: Toolkit) => createURL(request, tk),
+  method: 'POST',
+  path: '/create',
 });
 
+server.route({
+  handler: (request: Request, tk: Toolkit) => getURL(request, tk),
+  method: 'GET',
+  path: '/get/:id',
+});
+
+console.log(`-- DENO is running on port ${PORT}`);
 server.start();
