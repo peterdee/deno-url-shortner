@@ -2,9 +2,9 @@ export interface URLRecord {
   _id: {
     $oid: string;
   };
-  created: number;
+  created: string;
   secret: string;
   short: string;
   url: string;
-  updated: number;
+  updated: string;
 };
