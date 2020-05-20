@@ -1,5 +1,7 @@
 import { init, MongoClient } from 'https://deno.land/x/mongo@v0.6.0/mod.ts';
 
+import { DATABASE as DB } from '../config/index.ts';
+
 await init();
 
 class Database {
@@ -27,15 +29,20 @@ class Database {
     );
     this.client = client;
   }
+
+  get database() {
+    return this.client.database(this.name);
+  }
 };
 
 const client = new Database(
-  Deno.env.get('DB_HOST') || '',
-  Deno.env.get('DB_NAME') || '',
-  Deno.env.get('DB_PASSWORD') || '',
-  Deno.env.get('DB_PORT') || '',
-  Deno.env.get('DB_USERNAME') || '',
+  DB.host || '',
+  DB.name || '',
+  DB.password || '',
+  `${DB.port}` || '27017',
+  DB.username || '',
 );
 client.connect();
+const { database } = client;
 
-export default client;
+export default database;
