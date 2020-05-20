@@ -8,12 +8,19 @@ import { URLRecord } from '../database/types.ts';
 
 export default async (request: Request, tk: Toolkit) => {
   try {
+
+    const decoder = new TextDecoder();
+    const buffer = new Uint8Array(20);
+    const numBytesRead = await request.body.read(buffer) || 0;
+    const bodyText = decoder.decode(buffer.subarray(0, numBytesRead));
+    console.log(bodyText);
+
     // load collection
     const URLRecords = database.collection('URLRecords');
 
     // create a new record and get back the ID
-    const now = Date.now();
-    const { _id: { $oid: recordId = '' } = {} } = await URLRecords.insertOne({
+    const now = `${Date.now()}`;
+    const recordId = await URLRecords.insertOne({
       created: now,
       secret: 'secret',
       short: 'asd',
@@ -21,11 +28,10 @@ export default async (request: Request, tk: Toolkit) => {
       updated: now,
     });
 
-    console.log(recordId)
     // get the record itself
     const record: URLRecord = await URLRecords.findOne({
       _id: {
-        "$oid": recordId,
+        '$oid': recordId['$oid'],
       },
     });
 
