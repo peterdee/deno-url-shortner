@@ -11,7 +11,7 @@ const server: Server = pogo.server({ port: PORT });
 
 server.route({
   handler: (request: Request, tk: Toolkit) => createURL(request, tk),
-  method: 'POST',
+  method: 'GET', // TODO: set to POST
   path: '/create',
 });
 
