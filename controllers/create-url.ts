@@ -3,17 +3,15 @@ import { Status } from 'https://deno.land/std/http/http_status.ts';
 import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
 import { basic, serverError } from '../utils/responses.ts';
+import bodyParser from '../utils/body-parser.ts';
 import database from '../database/index.ts';
 import { URLRecord } from '../database/types.ts';
 
 export default async (request: Request, tk: Toolkit) => {
   try {
-
-    const decoder = new TextDecoder();
-    const buffer = new Uint8Array(20);
-    const numBytesRead = await request.body.read(buffer) || 0;
-    const bodyText = decoder.decode(buffer.subarray(0, numBytesRead));
-    console.log(bodyText);
+    // check the data
+    const data = await bodyParser(request, ['secret', 'url']);
+    console.log('data', data);
 
     // load collection
     const URLRecords = database.collection('URLRecords');
