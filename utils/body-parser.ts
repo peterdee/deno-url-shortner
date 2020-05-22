@@ -74,8 +74,11 @@ export default async (request: Request, fields: string[]) => {
     const buffer = new Uint8Array(1024);
     const numBytesRead = await request.body.read(buffer) || 0;
     const bodyText = decoder.decode(buffer.subarray(0, numBytesRead));
-console.log(bodyText);
-    return parseRecursively(bodyText, unique);
+
+    // decode the URI
+    const decoded = decodeURIComponent(bodyText);
+
+    return parseRecursively(decoded, unique);
   } catch (error) {
     throw error;
   }

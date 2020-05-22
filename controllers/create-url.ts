@@ -1,17 +1,32 @@
+import * as bcrypt from 'https://deno.land/x/bcrypt/mod.ts';
+import { cuid } from 'https://deno.land/x/cuid@v1.0.0/index.js';
 import Request from 'https://deno.land/x/pogo/lib/request.ts';
 import { Status } from 'https://deno.land/std/http/http_status.ts';
 import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
 import { basic, serverError } from '../utils/responses.ts';
 import bodyParser from '../utils/body-parser.ts';
+import { CreateURLData, SerializedRecord } from './types.ts';
 import database from '../database/index.ts';
+import serializeURLRecord from '../utils/serialize-url-record.ts';
 import { URLRecord } from '../database/types.ts';
 
+/**
+ * Create a new short URL
+ * @param {Request} request - request object
+ * @param {Toolkit} tk - response toolkit
+ * @returns {Promise<*>}
+ */
 export default async (request: Request, tk: Toolkit) => {
   try {
     // check the data
-    const data = await bodyParser(request, ['secret', 'url']);
-    console.log('data', data);
+    const { secret = '', url = '' }: CreateURLData = await bodyParser(request, ['secret', 'url']);
+    if (!(secret && url)) {
+      return basic(tk, Status.BadRequest, 'MISSING_DATA');
+    }
+
+    // hash the secret
+    const hash = await bcrypt.hash(secret);
 
     // load collection
     const URLRecords = database.collection('URLRecords');
@@ -20,9 +35,9 @@ export default async (request: Request, tk: Toolkit) => {
     const now = `${Date.now()}`;
     const recordId = await URLRecords.insertOne({
       created: now,
-      secret: 'secret',
-      short: 'asd',
-      url: 'https://google.com',
+      secret: hash,
+      short: cuid.slug(),
+      url,
       updated: now,
     });
 
@@ -33,7 +48,10 @@ export default async (request: Request, tk: Toolkit) => {
       },
     });
 
-    return basic(tk, Status.OK, 'OK', record);
+    // serialize the data
+    const serialized: SerializedRecord = serializeURLRecord(record);
+
+    return basic(tk, Status.OK, 'OK', serialized);
   } catch (error) {
     return serverError(tk);
   }
