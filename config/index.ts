@@ -13,3 +13,6 @@ export const DATABASE = {
 
 // Application port
 export const PORT = Number(environemt.PORT) || 1122;
+
+// Backend URI
+export const BACKEND_URI = environemt.BACKEND_URI || `http://localhost:${PORT}`;
