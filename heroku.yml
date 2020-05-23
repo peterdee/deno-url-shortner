@@ -1,5 +1,3 @@
 build:
   docker:
-    web: ./Dockerfile
-run:
-  web: deno run --allow-env --allow-net --allow-read --allow-write --allow-plugin --unstable server.ts
+    web: Dockerfile
