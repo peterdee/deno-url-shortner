@@ -4,3 +4,8 @@ export interface BasicResponse {
   status: number;
   data?: any;
 };
+
+export interface ServerOptions {
+  hostname?: string;
+  port: number;
+};
