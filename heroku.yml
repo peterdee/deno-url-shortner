@@ -1,5 +1,5 @@
 build:
   docker:
-    web: ./Dockerfile
+    web: Dockerfile
 run:
-  web: deno run --allow-env --allow-net --allow-read --allow-write --allow-plugin --unstable server.ts
+  web: chmod x+r start.sh && start.sh

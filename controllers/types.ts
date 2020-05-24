@@ -3,6 +3,10 @@ export interface CreateURLData {
   url?: string;
 };
 
+export interface DeleteURLData {
+  secret?: string;
+};
+
 export interface SerializedRecord {
   id: string;
   link: string;
