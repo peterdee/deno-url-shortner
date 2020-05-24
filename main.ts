@@ -6,6 +6,7 @@ import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
 import createURL from './controllers/create-url.ts';
 import deleteURL from './controllers/delete-url.ts';
+import getURL from './controllers/get-url.ts';
 import index from './controllers/index.ts';
 import { PORT as port } from './config/index.ts';
 import redirectToURL from './controllers/redirect-to-url.ts';
@@ -28,6 +29,12 @@ server.route({
   handler: (request: Request, tk: Toolkit): Promise<Response> => deleteURL(request, tk),
   method: 'DELETE',
   path: '/delete/{id}',
+});
+
+server.route({
+  handler: (request: Request, tk: Toolkit): Promise<Response> => getURL(request, tk),
+  method: 'GET',
+  path: '/get/{id}',
 });
 
 server.route({
