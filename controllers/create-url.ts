@@ -1,6 +1,7 @@
 import * as bcrypt from 'https://deno.land/x/bcrypt/mod.ts';
 import { cuid } from 'https://deno.land/x/cuid@v1.0.0/index.js';
 import Request from 'https://deno.land/x/pogo/lib/request.ts';
+import Response from 'https://deno.land/x/pogo/lib/response.ts';
 import { Status } from 'https://deno.land/std/http/http_status.ts';
 import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
@@ -15,9 +16,9 @@ import { URLRecord } from '../database/types.ts';
  * Create a new short URL
  * @param {Request} request - request object
  * @param {Toolkit} tk - response toolkit
- * @returns {Promise<*>}
+ * @returns {Promise<Response>}
  */
-export default async (request: Request, tk: Toolkit) => {
+export default async (request: Request, tk: Toolkit): Promise<Response> => {
   try {
     // check the data
     const { secret = '', url = '' }: CreateURLData = await bodyParser(request, ['secret', 'url']);
