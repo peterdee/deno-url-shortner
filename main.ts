@@ -1,3 +1,4 @@
+import * as flags from 'https://deno.land/std@v0.50.0/flags/mod.ts';
 import pogo from 'https://deno.land/x/pogo/main.ts';
 import Request from 'https://deno.land/x/pogo/lib/request.ts';
 import Response from 'https://deno.land/x/pogo/lib/response.ts';
@@ -8,8 +9,11 @@ import createURL from './controllers/create-url.ts';
 import deleteURL from './controllers/delete-url.ts';
 import getURL from './controllers/get-url.ts';
 import index from './controllers/index.ts';
-import { PORT as port } from './config/index.ts';
+import { ENV, PORT } from './config/index.ts';
 import redirectToURL from './controllers/redirect-to-url.ts';
+
+const argPort = flags.parse(Deno.args).port;
+const port = argPort ? Number(argPort) : PORT;
 
 const server: Server = pogo.server({ port });
 
@@ -43,5 +47,5 @@ server.route({
   path: '/go/{id}',
 });
 
-console.log(`-- DENO is running on port ${port}`);
+console.log(`-- DENO is running on port ${port} [${ENV.toUpperCase()}]`);
 server.start();

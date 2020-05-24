@@ -11,6 +11,9 @@ export const DATABASE = {
   username: environemt.DB_USERNAME || '',
 };
 
+// Application ENV
+export const { ENV = 'dev' } = environemt;
+
 // Application port
 export const PORT = Number(environemt.PORT) || 1122;
 
