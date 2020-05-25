@@ -1,5 +1,0 @@
-build:
-  docker:
-    web: Dockerfile
-run:
-  web: chmod x+r start.sh && start.sh

@@ -1,4 +1,3 @@
-import * as flags from 'https://deno.land/std@v0.50.0/flags/mod.ts';
 import pogo from 'https://deno.land/x/pogo/main.ts';
 import Request from 'https://deno.land/x/pogo/lib/request.ts';
 import Response from 'https://deno.land/x/pogo/lib/response.ts';
@@ -7,15 +6,21 @@ import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
 import createURL from './controllers/create-url.ts';
 import deleteURL from './controllers/delete-url.ts';
+import { ENV, PORT as port } from './config/index.ts';
 import getURL from './controllers/get-url.ts';
 import index from './controllers/index.ts';
-import { ENV, PORT } from './config/index.ts';
 import redirectToURL from './controllers/redirect-to-url.ts';
+import { ServerOptions } from './utils/types.ts';
 
-const argPort = flags.parse(Deno.args).port;
-const port = argPort ? Number(argPort) : PORT;
+// server options
+const options: ServerOptions = {
+  port,
+};
+if (ENV === 'heroku') {
+  options.hostname = '0.0.0.0';
+}
 
-const server: Server = pogo.server({ port });
+const server: Server = pogo.server(options);
 
 server.route({
   handler: (_: Request, tk: Toolkit): Promise<Response> => index(tk),

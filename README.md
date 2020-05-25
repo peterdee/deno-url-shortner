@@ -27,6 +27,12 @@ For development, run the following:
 bash start.sh
 ```
 
+### Heroku
+
+The `stage` branch is deployed to Heroku automatically.
+
+Check [this](https://github.com/chibat/heroku-deno-getting-started) for more details regarding the Heroku deployment.
+
 ### Available APIs
 
 See the [APIS.md](APIS.md) for more information.
