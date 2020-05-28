@@ -19,16 +19,15 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
   try {
     // check the data
     const { params: { id = '' } = {} } = request;
-    if (!id) {
+    const trimmedID = id.trim();
+    if (!trimmedID) {
       return basic(tk, Status.BadRequest, 'MISSING_DATA');
     }
 
-    // load collection
-    const URLRecords = database.collection('URLRecords');
-
     // get the record
+    const URLRecords = database.collection('URLRecords');
     const record: URLRecord = await URLRecords.findOne({
-      short: id,
+      short: trimmedID,
     });
     if (!record) {
       return basic(tk, Status.NotFound, 'LINK_NOT_FOUND');

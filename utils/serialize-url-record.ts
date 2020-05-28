@@ -8,6 +8,7 @@ import { URLRecord } from '../database/types.ts';
  * @returns {SerializedRecord}
  */
 export default (record: URLRecord): SerializedRecord => ({
+  clicks: record.clicks,
   id: record._id['$oid'],
   link: `${BACKEND_URI}/go/${record.short}`,
   url: record.url,
