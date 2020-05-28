@@ -8,6 +8,7 @@ export interface DeleteURLData {
 };
 
 export interface SerializedRecord {
+  clicks: number;
   id: string;
   link: string;
   updated: string;

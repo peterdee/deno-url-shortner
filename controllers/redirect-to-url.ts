@@ -17,21 +17,30 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
   try {
     // check data
     const { params: { id = '' } = {} } = request;
-    if (!id) {
+    const trimmedID = id.trim();
+    if (!trimmedID) {
       return basic(tk, Status.BadRequest, 'MISSING_DATA');
     }
 
-    // load collection
-    const URLRecords = database.collection('URLRecords');
-
     // get the record
+    const URLRecords = database.collection('URLRecords');
     const record: URLRecord = await URLRecords.findOne({
-      short: id,
+      short: trimmedID,
     });
     if (!record) {
       // TODO: redirect to the frontend
       return basic(tk, Status.NotFound, 'LINK_NOT_FOUND');
     }
+
+    // update the record
+    await URLRecords.updateOne(
+      {
+        short: trimmedID,
+      },
+      {
+        clicks: record.clicks + 1,
+      },
+    );
 
     // redirect to the original URL
     return tk.redirect(record.url);

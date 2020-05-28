@@ -21,30 +21,30 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
     // check the data
     const { params: { id = '' } = {} } = request;
     const { secret = '' }: DeleteURLData = await bodyParser(request, ['secret']);
-    if (!(id && secret)) {
+    const trimmedID = id.trim();
+    const trimmedSecret = secret.trim();
+    if (!(trimmedID && trimmedSecret)) {
       return basic(tk, Status.BadRequest, 'MISSING_DATA');
     }
 
-    // load collection
-    const URLRecords = database.collection('URLRecords');
-
     // get the record
+    const URLRecords = database.collection('URLRecords');
     const record: URLRecord = await URLRecords.findOne({
-      short: id,
+      short: trimmedID,
     });
     if (!record) {
       return basic(tk, Status.NotFound, 'LINK_NOT_FOUND');
     }
 
     // compare hashes
-    const compare = await bcrypt.compare(secret, record.secret);
+    const compare = await bcrypt.compare(trimmedSecret, record.secret);
     if (!compare) {
       return basic(tk, Status.Unauthorized, 'ACCESS_DENIED');
     }
 
     // delete the record
     await URLRecords.deleteOne({
-      short: id,
+      short: trimmedID,
     });
 
     return basic(tk, Status.OK, 'OK');

@@ -22,24 +22,25 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
   try {
     // check the data
     const { secret = '', url = '' }: CreateURLData = await bodyParser(request, ['secret', 'url']);
-    if (!(secret && url)) {
+    const trimmedSecret = secret.trim();
+    const trimmedURL = url.trim();
+    if (!(trimmedSecret && trimmedURL)) {
       return basic(tk, Status.BadRequest, 'MISSING_DATA');
     }
 
     // hash the secret
-    const hash = await bcrypt.hash(secret);
-
-    // load collection
-    const URLRecords = database.collection('URLRecords');
+    const hash = await bcrypt.hash(trimmedSecret);
 
     // create a new record and get back the ID
     const now = `${Date.now()}`;
+    const URLRecords = database.collection('URLRecords');
     const recordId = await URLRecords.insertOne({
+      clicks: 0,
       created: now,
       secret: hash,
       short: cuid.slug(),
-      url,
       updated: now,
+      url: trimmedURL,
     });
 
     // get the record itself
