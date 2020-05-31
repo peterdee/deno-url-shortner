@@ -2,6 +2,9 @@ import 'https://deno.land/x/denv/mod.ts';
 
 export const environemt = Deno.env.toObject();
 
+// CORS
+export const CORS_ENABLED = environemt.CORS_ENABLED === 'true';
+
 // Database connection
 export const DATABASE = {
   host: environemt.DB_HOST || 'localhost',
