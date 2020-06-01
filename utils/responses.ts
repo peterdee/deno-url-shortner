@@ -3,7 +3,6 @@ import { Status } from 'https://deno.land/std/http/http_status.ts';
 import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
 import { BasicResponse } from './types.ts';
-import { CORS_ENABLED } from '../config/index.ts';
 
 /**
  * Send the basic response
@@ -31,14 +30,12 @@ export const basic = (
 
   const response = tk.response(body);
 
-  // check CORS
-  if (CORS_ENABLED) {
-    response.headers.append('access-control-allow-origin', '*');
-    response.headers.append(
-      'access-control-allow-headers',
-      'Origin, X-Requested-With, Content-Type, Accept, Range',
-    );
-  }
+  // enable CORS
+  response.headers.append('access-control-allow-origin', '*');
+  response.headers.append(
+    'access-control-allow-headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Range',
+  );
 
   return response.code(status);
 };
