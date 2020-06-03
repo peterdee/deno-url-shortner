@@ -5,6 +5,7 @@ import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
 import { basic, serverError } from '../utils/responses.ts';
 import database from '../database/index.ts';
+import sanitize from '../utils/sanitize.ts';
 import { SerializedRecord } from './types.ts';
 import serializeURLRecord from '../utils/serialize-url-record.ts';
 import { URLRecord } from '../database/types.ts';
@@ -19,7 +20,7 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
   try {
     // check the data
     const { params: { id = '' } = {} } = request;
-    const trimmedID = id.trim();
+    const trimmedID = sanitize(id.trim());
     if (!trimmedID) {
       return basic(tk, Status.BadRequest, 'MISSING_DATA');
     }

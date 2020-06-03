@@ -8,6 +8,7 @@ import { basic, serverError } from '../utils/responses.ts';
 import bodyParser from '../utils/body-parser.ts';
 import { DeleteURLData } from './types.ts';
 import database from '../database/index.ts';
+import sanitize from '../utils/sanitize.ts';
 import { URLRecord } from '../database/types.ts';
 
 /**
@@ -21,8 +22,8 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
     // check the data
     const { params: { id = '' } = {} } = request;
     const { secret = '' }: DeleteURLData = await bodyParser(request, ['secret']);
-    const trimmedID = id.trim();
-    const trimmedSecret = secret.trim();
+    const trimmedID = sanitize(id.trim());
+    const trimmedSecret = sanitize(secret.trim());
     if (!(trimmedID && trimmedSecret)) {
       return basic(tk, Status.BadRequest, 'MISSING_DATA');
     }

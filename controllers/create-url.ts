@@ -9,8 +9,10 @@ import { basic, serverError } from '../utils/responses.ts';
 import bodyParser from '../utils/body-parser.ts';
 import { CreateURLData, SerializedRecord } from './types.ts';
 import database from '../database/index.ts';
+import sanitize from '../utils/sanitize.ts';
 import serializeURLRecord from '../utils/serialize-url-record.ts';
 import { URLRecord } from '../database/types.ts';
+import validate from '../utils/validate-url.ts';
 
 /**
  * Create a new short URL
@@ -22,10 +24,15 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
   try {
     // check the data
     const { secret = '', url = '' }: CreateURLData = await bodyParser(request, ['secret', 'url']);
-    const trimmedSecret = secret.trim();
-    const trimmedURL = url.trim();
+    const trimmedSecret = sanitize(secret.trim());
+    const trimmedURL = sanitize(url.trim());
     if (!(trimmedSecret && trimmedURL)) {
       return basic(tk, Status.BadRequest, 'MISSING_DATA');
+    }
+
+    // validate URL
+    if (!validate(trimmedURL)) {
+      return basic(tk, Status.BadRequest, 'INVALID_URL');
     }
 
     // hash the secret
