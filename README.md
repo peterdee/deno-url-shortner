@@ -4,7 +4,13 @@ A simple URL shorting service with Deno, Mongo and Pogo.
 
 Stack: [`Deno`](https://deno.land), [`MongoDB`](https://www.mongodb.com/), [`Pogo`](https://github.com/sholladay/pogo).
 
-By default, the server uses the `1122` port.
+See the project in action: https://vue-url-shortner.herokuapp.com
+
+Frontend repository: https://github.com/peterdee/vue-url-shortner
+
+DEV: http://localhost:1122
+
+STAGE: https://deno-url-shortner.herokuapp.com
 
 ### Deploy
 
