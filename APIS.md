@@ -111,4 +111,4 @@ You will get the `404` error if `id` is invalid or missing.
 
 Redirects to the original URL.
 
-You will get the `404` error if the `id` parameter is missing, invalid or not found.
+You will be redirected to the frontend page if `id` was not found.
