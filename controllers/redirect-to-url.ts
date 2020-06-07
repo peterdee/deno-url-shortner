@@ -5,6 +5,7 @@ import Toolkit from 'https://deno.land/x/pogo/lib/toolkit.ts';
 
 import { basic, serverError } from '../utils/responses.ts';
 import database from '../database/index.ts';
+import { FRONTEND_URI } from '../config/index.ts';
 import sanitize from '../utils/sanitize.ts';
 import { URLRecord } from '../database/types.ts';
 
@@ -29,8 +30,7 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
       short: trimmedID,
     });
     if (!record) {
-      // TODO: redirect to the frontend
-      return basic(tk, Status.NotFound, 'LINK_NOT_FOUND');
+      return tk.redirect(FRONTEND_URI);
     }
 
     // update the record

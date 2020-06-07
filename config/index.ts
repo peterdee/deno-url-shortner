@@ -14,6 +14,9 @@ export const DATABASE = {
 // Application ENV
 export const { ENV = 'dev' } = environemt;
 
+// Frontend URI
+export const FRONTEND_URI = environemt.FRONTEND_URI || 'http://localhost:5050';
+
 // Application port
 export const PORT = Number(environemt.PORT) || 1122;
 
