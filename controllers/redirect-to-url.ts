@@ -39,7 +39,9 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
         short: trimmedID,
       },
       {
-        clicks: record.clicks + 1,
+        $set: {
+          clicks: record.clicks + 1,
+        },
       },
     );
 
