@@ -24,8 +24,10 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
       id = '',
       secret = '',
     }: DeleteURLData = await bodyParser(request, ['id', 'secret']);
+    console.log(id, secret);
     const trimmedID = sanitize(id.trim());
     const trimmedSecret = sanitize(secret.trim());
+    console.log('trimmed', trimmedID, trimmedSecret);
     if (!(trimmedID && trimmedSecret)) {
       return basic(tk, Status.BadRequest, 'MISSING_DATA');
     }
