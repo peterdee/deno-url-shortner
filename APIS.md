@@ -51,7 +51,7 @@ Response:
 
 Opening the `link` from the response should redirect you to the original URL.
 
-### `/delete [POST]`
+### `/delete/{id} [POST]`
 
 Delete the 'shortened' URL.
 

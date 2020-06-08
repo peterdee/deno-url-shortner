@@ -22,7 +22,6 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
     // check the data
     const { params: { id = '' } = {} } = request;
     const { secret = '' }: DeleteURLData = await bodyParser(request, ['secret']);
-    console.log(id, secret)
     const trimmedID = sanitize(id.trim());
     const trimmedSecret = sanitize(secret.trim());
     if (!(trimmedID && trimmedSecret)) {
