@@ -44,14 +44,15 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
     if (!compare) {
       return basic(tk, Status.Unauthorized, 'ACCESS_DENIED');
     }
-
+    console.log('before');
     // delete the record
     await URLRecords.deleteOne({
       short: trimmedID,
     });
-
+    console.log('after');
     return basic(tk, Status.OK, 'OK');
   } catch (error) {
+    console.log('error', error);
     return serverError(tk);
   }
 };
