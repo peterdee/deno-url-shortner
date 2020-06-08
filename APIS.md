@@ -55,16 +55,15 @@ Opening the `link` from the response should redirect you to the original URL.
 
 Delete the 'shortened' URL.
 
+`id` - the 'short' identifier.
+
 Request body:
 
 ```json
 "data": {
-  "id": "shortId",
   "secret": "secret phrase"
 }
 ```
-
-`id` - the 'short' identifier.
 
 `secret` - a secret phrase, that was provided during the creation.
 

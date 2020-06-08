@@ -20,14 +20,11 @@ import { URLRecord } from '../database/types.ts';
 export default async (request: Request, tk: Toolkit): Promise<Response> => {
   try {
     // check the data
-    const {
-      id = '',
-      secret = '',
-    }: DeleteURLData = await bodyParser(request, ['id', 'secret']);
-    console.log(id, secret);
-    const trimmedID = sanitize(id.trim());
+    const { params: { short = '' } = {} } = request;
+    const { secret = '' }: DeleteURLData = await bodyParser(request, ['secret']);
+    console.log(short, secret)
+    const trimmedID = sanitize(short.trim());
     const trimmedSecret = sanitize(secret.trim());
-    console.log('trimmed', trimmedID, trimmedSecret);
     if (!(trimmedID && trimmedSecret)) {
       return basic(tk, Status.BadRequest, 'MISSING_DATA');
     }
@@ -46,15 +43,14 @@ export default async (request: Request, tk: Toolkit): Promise<Response> => {
     if (!compare) {
       return basic(tk, Status.Unauthorized, 'ACCESS_DENIED');
     }
-    console.log('before');
+
     // delete the record
     await URLRecords.deleteOne({
       short: trimmedID,
     });
-    console.log('after');
+
     return basic(tk, Status.OK, 'OK');
   } catch (error) {
-    console.log('error', error);
     return serverError(tk);
   }
 };

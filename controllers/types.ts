@@ -4,7 +4,6 @@ export interface CreateURLData {
 };
 
 export interface DeleteURLData {
-  id?: string;
   secret?: string;
 };
 
