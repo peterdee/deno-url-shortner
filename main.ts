@@ -36,8 +36,8 @@ server.route({
 
 server.route({
   handler: (request: Request, tk: Toolkit): Promise<Response> => deleteURL(request, tk),
-  method: 'DELETE',
-  path: '/delete/{id}',
+  method: 'POST',
+  path: '/delete',
 });
 
 server.route({

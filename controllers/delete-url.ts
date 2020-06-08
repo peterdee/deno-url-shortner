@@ -20,8 +20,10 @@ import { URLRecord } from '../database/types.ts';
 export default async (request: Request, tk: Toolkit): Promise<Response> => {
   try {
     // check the data
-    const { params: { id = '' } = {} } = request;
-    const { secret = '' }: DeleteURLData = await bodyParser(request, ['secret']);
+    const {
+      id = '',
+      secret = '',
+    }: DeleteURLData = await bodyParser(request, ['id', 'secret']);
     const trimmedID = sanitize(id.trim());
     const trimmedSecret = sanitize(secret.trim());
     if (!(trimmedID && trimmedSecret)) {
