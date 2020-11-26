@@ -1,4 +1,4 @@
-import * as bcrypt from 'https://deno.land/x/bcrypt/mod.ts';
+import * as bcrypt from 'https://deno.land/x/bcrypt@v0.2.2/mod.ts';
 import { cuid } from 'https://deno.land/x/cuid@v1.0.0/index.js';
 import Request from 'https://deno.land/x/pogo/lib/request.ts';
 import Response from 'https://deno.land/x/pogo/lib/response.ts';
